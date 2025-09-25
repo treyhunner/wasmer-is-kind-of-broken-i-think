@@ -1,16 +1,20 @@
 import os
 import json
 from http.server import SimpleHTTPRequestHandler, HTTPServer
+from random import randint
+
+numbers = []
 
 
 class CustomHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
+        numbers.append(randint(0, 9))
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
 
         data = {
-            "message": "Python app is running with Wasmer!"
+            "message": "Python app on Wasmer: {','.join(numbers)}"
         }
         self.wfile.write(json.dumps(data).encode('utf-8'))
 
